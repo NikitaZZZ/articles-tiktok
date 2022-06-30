@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onChildAdded } from 'firebase/database';
 
 import articleTTP from './components/article-ttp.vue';
 import newArticle from './components/newArticle.vue';
@@ -28,12 +28,12 @@ export default {
   },
 
   created: function () {
-    onValue(ref(db, 'articles/'), (snapshot) => {
-      const data = snapshot.val();
+    const articleRef = ref(db, 'articles/');
 
-      for (const obj in data) {
-        this.articles.push(data[obj]);
-      }
+    onChildAdded(articleRef, (data) => {
+      const dataArticle = data.val();
+
+      this.articles.push(dataArticle);
     });
   },
 };
