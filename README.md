@@ -1,5 +1,7 @@
 # articles-tiktok
 
+Tik Tok, but with articles.
+
 ## Project setup
 ```
 yarn install
