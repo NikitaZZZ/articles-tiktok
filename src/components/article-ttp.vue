@@ -6,11 +6,8 @@
       <p class="card-text">{{ article.textContent }}</p>
 
       <div class="button-group">
-        <button class="btn btn-outline-success" id="like-button">
+        <button class="btn btn-outline-success" @click="like(article.id)" id="like-button">
           {{ article.likes }} <i class="fas fa-thumbs-up"></i>
-        </button>
-        <button class="btn btn-outline-danger">
-          {{ article.likes }} <i class="fas fa-thumbs-down"></i>
         </button>
       </div>
     </div>
@@ -18,10 +15,29 @@
 </template>
 
 <script>
+import { getDatabase, ref, update, get, child } from '@firebase/database';
+import { firebaseApp } from '../index';
+
+const db = getDatabase(firebaseApp);
+
 export default {
   props: {
     article: {
       type: Object,
+    },
+  },
+
+  methods: {
+    like: async function (articleId) {
+      await get(child(ref(db), `articles/${articleId}`)).then((snapshot) => {
+        let likes = snapshot.val().likes;
+
+        const updates = {};
+        likes += 1;
+
+        updates[`/articles/${articleId}/likes`] = likes;
+        return update(ref(db), updates);
+      });
     },
   },
 };
@@ -31,9 +47,5 @@ export default {
 .card {
   width: 20rem;
   margin: 1rem auto;
-}
-
-#like-button {
-  margin-right: 1rem;
 }
 </style>

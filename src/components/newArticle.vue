@@ -29,6 +29,8 @@ import { getDatabase, ref, set } from 'firebase/database';
 
 const db = getDatabase(firebaseApp);
 
+const getRandId = () => Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString();
+
 export default {
   name: 'newArticle',
   data() {
@@ -37,21 +39,17 @@ export default {
         title: '',
         author: '',
         textContent: '',
+        likes: 0,
+        id: getRandId(),
       },
     };
   },
 
   methods: {
-    clearObjectData(obj) {
-      Object.getOwnPropertyNames(obj).forEach((property) => {
-        delete obj[property];
-      });
-    },
+    async createPost() {
+      await set(ref(db, `articles/${this.articleDataForm.id}`), this.articleDataForm);
 
-    createPost() {
-      set(ref(db, `articles/${this.articleDataForm.title}`), this.articleDataForm);
-
-      this.clearObjectData(this.articleDataForm);
+      location.reload();
     },
   },
 };
