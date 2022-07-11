@@ -1,5 +1,15 @@
 <template>
-  <articleTTP v-for="article in articles" :key="article.title" :article="article" />
+  <swiper
+    :modules="modules"
+    :direction="vertical"
+    :space-between="50"
+    @swiper="onSwiper"
+    @slideChange="onSlideChange"
+  >
+    <Swiper-slide v-for="article in articles" :key="article.title"
+      ><articleTTP :article="article"
+    /></Swiper-slide>
+  </swiper>
 
   <button
     class="btn btn-outline-success position-absolute top-100 translate-middle"
@@ -21,6 +31,12 @@
 </template>
 
 <script>
+import { EffectFade } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+
 import { getDatabase, ref, onChildAdded } from 'firebase/database';
 
 import articleTTP from './components/article-ttp.vue';
@@ -41,6 +57,8 @@ export default {
   components: {
     articleTTP,
     newArticle,
+    Swiper,
+    SwiperSlide,
   },
 
   created: function () {
@@ -51,6 +69,21 @@ export default {
 
       this.articles.push(dataArticle);
     });
+  },
+
+  setup() {
+    const onSwiper = (swiper) => {
+      console.log(swiper);
+    };
+    const onSlideChange = () => {
+      console.log('slide change');
+    };
+
+    return {
+      onSwiper,
+      onSlideChange,
+      modules: [EffectFade],
+    };
   },
 };
 </script>
