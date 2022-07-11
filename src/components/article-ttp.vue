@@ -9,6 +9,9 @@
         <button class="btn btn-outline-success" @click="like(article.id)" id="like-button">
           {{ article.likes }} <i class="fas fa-thumbs-up"></i>
         </button>
+        <button class="btn btn-outline-danger" style="margin-left: 1rem">
+          <i class="fas fa-plus"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -29,15 +32,21 @@ export default {
 
   methods: {
     like: async function (articleId) {
-      await get(child(ref(db), `articles/${articleId}`)).then((snapshot) => {
-        let likes = snapshot.val().likes;
+      await get(child(ref(db), `articles/${articleId}`))
+        .then((snapshot) => {
+          let likes = snapshot.val().likes;
 
-        const updates = {};
-        likes += 1;
+          if (localStorage.getItem(`like${articleId}`) === null) {
+            const updates = {};
+            likes += 1;
 
-        updates[`/articles/${articleId}/likes`] = likes;
-        return update(ref(db), updates);
-      });
+            updates[`/articles/${articleId}/likes`] = likes;
+            localStorage.setItem(`like${articleId}`, true);
+
+            return update(ref(db), updates);
+          }
+        })
+        .then(() => location.reload());
     },
   },
 };

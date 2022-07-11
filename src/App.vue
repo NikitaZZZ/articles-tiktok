@@ -1,7 +1,23 @@
 <template>
   <articleTTP v-for="article in articles" :key="article.title" :article="article" />
 
-  <newArticle />
+  <button
+    class="btn btn-outline-success position-absolute top-100 translate-middle"
+    data-bs-toggle="modal"
+    data-bs-target="#create-new-article-modal"
+  >
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <div class="modal" id="create-new-article-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <newArticle />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

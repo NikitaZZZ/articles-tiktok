@@ -1,6 +1,6 @@
 <template>
   <div class="article-form">
-    <div class="mt-3">
+    <div class="mb-3">
       <label for="nameArticle-input" class="form-label">Название поста</label>
       <input
         type="text"
@@ -54,10 +54,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.article-form {
-  width: 30rem;
-  margin: auto;
-}
-</style>
