@@ -11,13 +11,15 @@
     /></Swiper-slide>
   </swiper>
 
-  <button
-    class="btn btn-outline-success position-absolute top-100 translate-middle"
-    data-bs-toggle="modal"
-    data-bs-target="#create-new-article-modal"
-  >
-    <i class="fas fa-plus"></i>
-  </button>
+  <footer class="fixed-bottom">
+    <button
+      class="btn btn-outline-success w-100"
+      data-bs-toggle="modal"
+      data-bs-target="#create-new-article-modal"
+    >
+      <i class="fas fa-plus"></i>
+    </button>
+  </footer>
 
   <div class="modal" id="create-new-article-modal" tabindex="-1">
     <div class="modal-dialog">
@@ -75,6 +77,7 @@ export default {
     const onSwiper = (swiper) => {
       console.log(swiper);
     };
+
     const onSlideChange = () => {
       console.log('slide change');
     };
